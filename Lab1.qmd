@@ -20,7 +20,7 @@ title: "Lab1"
 
 1.  Выполнить команду system2("systeminfo", stdout = TRUE)
 2.  Выполнить команду system("wmic cpu get name")
-3.  Выполнить команду system("wevtutil el", intern = TRUE)
+3.  Выполнить команду system("powershell.exe Get-EventLog -LogName System -Newest 30")
 
 ## Шаги
 
@@ -36,7 +36,7 @@ system2("systeminfo", stdout = TRUE)
 system2("cmd", args = c("/c", "wmic cpu get name"), stdout = TRUE)
 ```
 
-3\. Также выполним команду system("wevtutil el", intern = TRUE) для вывода логов
+3\. Также выполним команду system("powershell.exe Get-EventLog -LogName System -Newest 30") для вывода логов
 
 ```{r}
 system2("powershell.exe", args = c("Get-EventLog", "-LogName", "System", "-Newest", "30"), stdout = TRUE)
