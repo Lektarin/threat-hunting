@@ -1,0 +1,46 @@
+version: "3"
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: elastic/elasticsearch:7.17.10
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - search-net
+    ports:
+      - 9200:9200
+  kibana:
+    container_name: kibana
+    image: elastic/kibana:7.17.10
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    networks:
+      - search-net
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+  packetbeat:
+    container_name: packetbeat
+    image: elastic/packetbeat:7.17.10
+    volumes:
+      - ./config/packetbeat.yml:/usr/share/packetbeat/packetbeat.yml
+    cap_add: ['NET_RAW', 'NET_ADMIN']
+    network_mode: host
+    depends_on:
+      - elasticsearch
+  filebeat:
+    container_name: filebeat
+    image: elastic/filebeat:7.17.10
+    user: root
+    volumes:
+      - ./config/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - /var/log/:/var/log/
+    networks:
+      - search-net
+    depends_on:
+      - elasticsearch
+
+networks:
+  search-net:

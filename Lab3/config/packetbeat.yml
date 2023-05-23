@@ -1,0 +1,31 @@
+setup.template.name: "packetbeat"
+setup.template.pattern: "packetbeat"
+setup.template.overwrite: true
+packetbeat.interfaces.device: any
+packetbeat.flows:
+  enabled: true
+  timeout: 30s
+  period: 10s
+packetbeat.protocols.icmp:
+  enabled: true
+packetbeat.protocols.dns:
+  enabled: true
+  ports: [53]
+  include_authorities: true
+  include_additionals: true
+packetbeat.protocols.http:
+  enabled: true
+  ports: [9200, 5601]
+  send_headers: true
+  send_all_headers: true
+  split_cookie: true
+  send_request: false
+  send_response: false
+  transaction_timeout: 10s
+output.elasticsearch:
+  hosts: ["http://localhost:9200"]
+output.elasticsearch.index: "packetbeat"
+ssl.verification_mode: none
+logging.to_files: false
+setup.kibana:
+  host: "localhost:5601"
