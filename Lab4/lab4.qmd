@@ -1,5 +1,5 @@
 ---
-title: "Лабораторная работа № 4"
+    title: "Лабораторная работа № 4"
 ---
 
 # Развертывание Threat intelligence Platform OpenCTI
